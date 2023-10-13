@@ -1,7 +1,6 @@
 package lk.ijse.dep.service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class AiPlayer extends Player {
     public AiPlayer(Board newBoard) {
@@ -36,8 +35,8 @@ public class AiPlayer extends Player {
             collection.add(new ReserveCollumn(i, 0));
         }
         for (int i = 0; i < collection.size(); i++) {
-            int avs = board.findNextAvailableSpot(i);
-            if (avs==-1)continue;
+            int fna = board.findNextAvailableSpot(i);
+            if (fna==-1)continue;
             board.updateMove(i, Piece.GREEN);
             Winner winner = board.findWinner();
             if (winner.getWinningPiece() == Piece.GREEN) {
@@ -49,12 +48,12 @@ public class AiPlayer extends Player {
                     }
                 }
             }
-            board.updateMove(i, avs, Piece.EMPTY);
+            board.updateMove(i, fna, Piece.EMPTY);
         }
 
         for (int i = 0; i < 6; i++) {
-            int avs = board.findNextAvailableSpot(i);
-            if (avs==-1)continue;
+            int fna = board.findNextAvailableSpot(i);
+            if (fna==-1)continue;
             board.updateMove(i, Piece.BLUE);
             Winner winner = board.findWinner();
             if (winner.getWinningPiece() == Piece.BLUE) {
@@ -62,11 +61,12 @@ public class AiPlayer extends Player {
                     if (holder.getCol() == i) {
                         int score = holder.getScore();
                         score += 99;
+
                         holder.setScore(score);
                     }
                 }
             }
-            board.updateMove(i, avs, Piece.EMPTY);
+            board.updateMove(i, fna, Piece.EMPTY);
         }
         return max(collection);
     }
